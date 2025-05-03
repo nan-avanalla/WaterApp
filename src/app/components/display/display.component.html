@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ screenTitle }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ screenTitle }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="filterContainer">
+    <ion-grid>
+      <ion-row style="min-height: 100px;">
+        <ion-col>
+          <ion-list>
+            <ion-item>
+              <ion-select aria-label="Zone" interface="action-sheet" placeholder="Select a Zone" [(ngModel)] = "selectedZone" (ionChange)="zoneChanged($event)">
+                @for (zone of zones; track zone) {
+                  <ion-select-option [value]="zone">{{ zone.name }}</ion-select-option>
+                  }
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+        <ion-col>
+          <ion-list>
+            <ion-item>
+              <ion-select aria-label="Area" interface="action-sheet" placeholder="Select Area" [(ngModel)] = "selectedArea" (ionChange)="areaChanged($event)">
+                @for (area of filteredAreas; track area) {
+                  <ion-select-option [value]="area">{{ area.name }}</ion-select-option>
+                  }
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div id="resultContainer">
+    <div id="dvMapContainer" style="aspect-ratio:1 / 1;">
+    </div>
+  </div>
+</ion-content>
