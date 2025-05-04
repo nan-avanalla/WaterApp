@@ -14,7 +14,8 @@ function invokeMapLoader() {
 
         map.addSource('pressure_point_stats', {
             type: 'geojson',
-            data: 'https://nan-avanalla.github.io/GJB-dummy/pp_map_30Apr.json'
+            data: 'https://nan-avanalla.github.io/GJB-dummy/pp_map_05May.json'
+            // data: 'https://nan-avanalla.github.io/GJB-dummy/pp_map_30Apr.json'
             // data: 'https://nan-avanalla.github.io/GJB-dummy/pp_data_13Mar.json'
             // data: 'http://localhost:5180/api/ppdata/list'
         });
@@ -136,16 +137,31 @@ function invokeMapLoader() {
         //animated circle
     
         map.on('click', 'nodes', (e) => {
+            var tagTable = '<table border="1">';
+            tagTable += '<tr bgcolor="#00FF00"><th>Tag</th><th>Value</th></tr>';
+            JSON.parse(e.features[0].properties.TagAttributes).Tags.forEach(tag => {
+                tagTable += '<tr><td>' + tag.TagName + '</td><td>' + tag.Value + '</td></tr>';
+            });
+            tagTable += '</table>';
+
+
             new maplibregl.Popup()
                 .setLngLat(e.lngLat)
-                .setHTML('<b>' + e.features[0].properties.TagHeader + '</b><br/><b>Tag:</b> '+ e.features[0].properties.TagName + '<br/><b>Value: </b>' + e.features[0].properties.Value)
+                .setHTML('<b>' + e.features[0].properties.TagHeader + '</b>'+ tagTable)
                 .addTo(map);
         });
     
         map.on('click', 'dots', (e) => {
+            var tagTable = '<table border="1">';
+            tagTable += '<tr bgcolor="#00FF00"><th>Tag</th><th>Value</th></tr>';
+            JSON.parse(e.features[0].properties.TagAttributes).Tags.forEach(tag => {
+                tagTable += '<tr><td>' + tag.TagName + '</td><td>' + tag.Value + '</td></tr>';
+            });
+            tagTable += '</table>';
+
             new maplibregl.Popup()
                 .setLngLat(e.lngLat)
-                .setHTML('<b>' + e.features[0].properties.TagHeader + '</b><br/><b>Tag:</b> ' + e.features[0].properties.TagName + '<br/><b>Value: </b>' + e.features[0].properties.Value)
+                .setHTML('<b>' + e.features[0].properties.TagHeader + '</b>'+ tagTable)
                 .addTo(map);
         });
     
