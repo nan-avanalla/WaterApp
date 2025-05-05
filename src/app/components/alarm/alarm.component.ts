@@ -13,7 +13,7 @@ export class AlarmComponent  implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.screenTitle = 'Alarm';
+    this.screenTitle = 'Alarms';
   }
 
 }

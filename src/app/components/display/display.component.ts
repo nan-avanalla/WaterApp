@@ -42,7 +42,7 @@ export class DisplayComponent  implements OnInit {
 
   allAreas: Area[] = [
     {
-      name: 'Amaya Nagar',
+      name: 'Amiya Nagar',
       code: 'AMY_NGR',
       zone_code: 'SOUTH_ZONE'
     }
@@ -58,7 +58,7 @@ export class DisplayComponent  implements OnInit {
   }
 
   ngOnInit() {
-    this.screenTitle = 'Display';    
+    this.screenTitle = 'Displays';    
   }
 
   zoneChanged(event: CustomEvent) {
