@@ -15,7 +15,64 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    
+  <div id="filterContainer">
+    <ion-grid>
+      <ion-row style="min-height: 100px;">
+        <ion-col>
+          <ion-list>
+            <ion-item>
+              <ion-select aria-label="Zone" interface="action-sheet" placeholder="Select a Zone" [(ngModel)] = "selectedZone" (ionChange)="zoneChanged($event)">
+                @for (zone of zones; track zone) {
+                  <ion-select-option [value]="zone">{{ zone.Name }}</ion-select-option>
+                  }
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+        <ion-col>
+          <ion-list>
+            <ion-item>
+              <ion-select aria-label="DMA" interface="action-sheet" placeholder="Select DMA" [(ngModel)] = "selectedDMA" (ionChange)="dmaChanged($event)">
+                @for (dma of filteredDMAs; track dma) {
+                  <ion-select-option [value]="dma">{{ dma.Name }}</ion-select-option>
+                  }
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+        <ion-col>
+          <ion-list>
+            <ion-item>
+              <ion-select aria-label="Area" interface="action-sheet" placeholder="Select Area" [(ngModel)] = "selectedArea" (ionChange)="areaChanged($event)">
+                @for (area of filteredAreas; track area) {
+                  <ion-select-option [value]="area">{{ area.Name }}</ion-select-option>
+                  }
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div id="resultContainer" *ngIf="resultData && resultData.length > 0">
+    <ion-grid [fixed]="true">
+      <ion-row>
+        <!-- <ion-col size="2" class="gridBorderStyling">DMA</ion-col>
+        <ion-col size="2" class="gridBorderStyling">Area</ion-col> -->
+        <ion-col size="3" class="gridHeaderStyling gridBorderStyling">Instance</ion-col>
+        <ion-col size="3" class="gridHeaderStyling gridBorderStyling">Tag</ion-col>
+        <ion-col size="4" class="gridHeaderStyling gridBorderStyling">Date</ion-col>
+        <ion-col size="2" class="gridHeaderStyling gridBorderStyling">Value</ion-col>
+      </ion-row>
+      <ion-row *ngFor="let row of resultData">
+        <!-- <ion-col size="2" class="gridBorderStyling">{{row.DMA}}</ion-col>
+        <ion-col size="2" class="gridBorderStyling">{{row.Area}}</ion-col> -->
+        <ion-col size="3" class="gridBorderStyling">{{row.Instance}}</ion-col>
+        <ion-col size="3" class="gridBorderStyling">{{row.Tagname}}</ion-col>
+        <ion-col size="4" class="gridBorderStyling">{{row.DateTime}}</ion-col>
+        <ion-col size="2" class="gridBorderStyling">{{row.Value}}</ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>

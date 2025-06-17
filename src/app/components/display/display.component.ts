@@ -3,15 +3,18 @@ import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent,
           IonGrid, IonRow, IonCol, IonList, IonItem, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MasterService } from 'src/app/services/master.service';
+import { LoadingController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 interface Zone {
-  name: string;
-  code: string;
+  Name: string;
+  Code: string;
 }
 
-interface Area {
-  name: string;
-  code: string;
+interface DMA {
+  Name: string;
+  Code: string;
   zone_code: string;
 }
 
@@ -27,30 +30,17 @@ declare var invokeMapLoader: any;
 export class DisplayComponent  implements OnInit {
   public screenTitle!: string;
   public selectedZone!: Zone;
-  public selectedArea!: Area;
+  public selectedDMA!: DMA;
+  private mapApiUrl!: string;
 
-  zones: Zone[] = [
-    {
-      name: 'North Zone',
-      code: 'NORTH_ZONE'
-    },
-    {
-      name: 'South Zone',
-      code: 'SOUTH_ZONE'
-    }
-  ];
+  zones: Zone[] = [];
+  filteredDMAs: DMA[] = [];
 
-  allAreas: Area[] = [
-    {
-      name: 'Amiya Nagar',
-      code: 'AMY_NGR',
-      zone_code: 'SOUTH_ZONE'
-    }
-  ];
-
-  filteredAreas: Area[] = [];
-
-  constructor(private router: Router) { 
+  constructor(
+    private router: Router,
+    private masterService: MasterService,
+    private loadingCtrl: LoadingController
+  ) { 
     this.router.events.subscribe((e: any) => {
       this.clearFilters();
       this.clearResults();
@@ -58,26 +48,61 @@ export class DisplayComponent  implements OnInit {
   }
 
   ngOnInit() {
-    this.screenTitle = 'Displays';    
+    this.screenTitle = 'Displays';
+    this.mapApiUrl = environment.baseApiUrl + 'ppdata/list';
+    this.loadFilters();
   }
 
+  loadFilters() {
+    this.loadZoneList();
+  }
+
+  async loadZoneList() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading..',
+      spinner: 'bubbles',
+    });
+    await loading.present();
+    this.masterService.getZonesList().subscribe(
+      {
+        next: res => { this.zones.push(... res); loading.dismiss(); },
+        error: err => { console.log(err); loading.dismiss(); }
+      }
+    );
+  }
+  
   zoneChanged(event: CustomEvent) {
-    this.filteredAreas = this.allAreas.filter(area => area.zone_code == this.selectedZone.code);
+    // this.filteredDMAs = this.allDMAs.filter(dma => dma.zone_code == this.selectedZone.Code);
     this.clearResults();
+    this.loadDMAList();
   }
 
-  areaChanged(event: CustomEvent) {
-    invokeMapLoader();
+  async loadDMAList() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading..',
+      spinner: 'bubbles',
+    });
+    await loading.present();
+    this.masterService.getDMAList(this.selectedZone.Code).subscribe(
+      {
+        next: res => { this.filteredDMAs = []; this.filteredDMAs.push(... res); loading.dismiss(); },
+        error: err => { console.log(err); loading.dismiss(); }
+      }
+    );
+  }
+
+  dmaChanged(event: CustomEvent) {
+    invokeMapLoader(this.mapApiUrl + '?dmaCode=' + this.selectedDMA.Code);
   }
 
   clearFilters() {
-    this.selectedArea = {} as Area;
+    this.selectedDMA = {} as DMA;
     this.selectedZone = {} as Zone;
-    this.filteredAreas = [];
+    this.filteredDMAs = [];
   }
 
   clearResults() {
-    this.selectedArea = {} as Area;
+    this.selectedDMA = {} as DMA;
     const dvMapContainer = document.getElementById('dvMapContainer');
     if (dvMapContainer) {
       dvMapContainer.innerHTML = '';

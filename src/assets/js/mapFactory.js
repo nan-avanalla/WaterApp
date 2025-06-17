@@ -1,7 +1,7 @@
 const greenStatus = '#008000';
 const redStatus = '#FF0000';
 
-function invokeMapLoader() {
+function invokeMapLoader(mapUrlWithFilters) {
     const map = new maplibregl.Map({
         container: 'dvMapContainer',
         style: 'https://api.maptiler.com/maps/streets/style.json?key=2HY31GbOIBe6x5E3fskA',
@@ -14,7 +14,8 @@ function invokeMapLoader() {
 
         map.addSource('pressure_point_stats', {
             type: 'geojson',
-            data: 'https://nan-avanalla.github.io/GJB-dummy/pp_map_05May.json'
+            data: mapUrlWithFilters
+            // data: 'https://nan-avanalla.github.io/GJB-dummy/pp_map_05May.json'
             // data: 'https://nan-avanalla.github.io/GJB-dummy/pp_map_30Apr.json'
             // data: 'https://nan-avanalla.github.io/GJB-dummy/pp_data_13Mar.json'
             // data: 'http://localhost:5180/api/ppdata/list'

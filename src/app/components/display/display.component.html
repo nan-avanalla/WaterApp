@@ -22,7 +22,7 @@
             <ion-item>
               <ion-select aria-label="Zone" interface="action-sheet" placeholder="Select a Zone" [(ngModel)] = "selectedZone" (ionChange)="zoneChanged($event)">
                 @for (zone of zones; track zone) {
-                  <ion-select-option [value]="zone">{{ zone.name }}</ion-select-option>
+                  <ion-select-option [value]="zone">{{ zone.Name }}</ion-select-option>
                   }
               </ion-select>
             </ion-item>
@@ -31,9 +31,9 @@
         <ion-col>
           <ion-list>
             <ion-item>
-              <ion-select aria-label="Area" interface="action-sheet" placeholder="Select Area" [(ngModel)] = "selectedArea" (ionChange)="areaChanged($event)">
-                @for (area of filteredAreas; track area) {
-                  <ion-select-option [value]="area">{{ area.name }}</ion-select-option>
+              <ion-select aria-label="DMA" interface="action-sheet" placeholder="Select DMA" [(ngModel)] = "selectedDMA" (ionChange)="dmaChanged($event)">
+                @for (dma of filteredDMAs; track dma) {
+                  <ion-select-option [value]="dma">{{ dma.Name }}</ion-select-option>
                   }
               </ion-select>
             </ion-item>

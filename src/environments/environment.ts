@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiKey: '72d72161-925c-4cd5-bb75-1068c2682s31', // <-- Enter your own key here!'
+  baseApiUrl: 'http://localhost:5180/api/',
+  images: '',
 };
 
 /*
@@ -14,3 +17,5 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+
+

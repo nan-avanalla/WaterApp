@@ -1,10 +1,13 @@
 <ion-app>
-  <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
+  <ion-split-pane contentId="main-content" >
+    <ion-menu contentId="main-content" type="overlay" *ngIf = "displayMenu">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>GWSP APP</ion-list-header>
-          <ion-note>Hi, Guest</ion-note>
+          <ion-list-header>GWSP APP
+            <ion-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh-w5JrL3K_59ShkjpbMdBfJeNRhExmi7EMA&s" 
+                  alt="Guwahati Jal Board"></ion-img>
+          </ion-list-header><br/>
+          <ion-note>Hi, {{ loggedInUser }}</ion-note>
 
           <ion-menu-toggle auto-hide="false">
             <ion-item [routerLink] = "['/home']">
@@ -30,8 +33,8 @@
         </ion-list>
       </ion-content>
 
-      <ion-footer class="bar-stable" auto-hide="false">
-        <ion-item [routerLink] = "['/home']">
+      <ion-footer class="bar-stable" auto-hide="true">
+        <ion-item (click)="logout()">
           <ion-icon aria-hidden="true" slot="start" ios="log-out-outline" md="log-out-sharp"></ion-icon>
           <ion-label>Logout</ion-label>
         </ion-item>
